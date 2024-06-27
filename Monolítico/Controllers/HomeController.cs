@@ -17,7 +17,7 @@ public class HomeController : ControllerBase
     public ContentResult Home()
     {
         string text;
-        using (StreamReader reader = new StreamReader("../client/index.html"))
+        using (StreamReader reader = new StreamReader("index.html"))
         {
             text = reader.ReadToEnd();
             Console.WriteLine(text);

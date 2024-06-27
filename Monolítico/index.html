@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <h1>La MicroCafeter&iacute;a</h1>
+        <h2>Bebidas</h2>
+        <div id="bebidas"></div>
+        <hr>
+        <h2>Comidas</h2>
+        <div id="comidas"></div>
+        <hr>
+        <h2>Carrito</h2>
+        <div id="carrito-bebidas"></div>
+        <div id="carrito-comidas"></div>
+
+        <script>
+            async function comprarBebida(id) {
+                const response = await fetch(`/Bebidas?id=${id}`, { method: 'POST' });
+
+                const carrito = document.getElementById("carrito-bebidas");
+                carrito.innerHTML = '';
+
+                for (const compra of await response.json()) {
+                    const item = document.createElement('p');
+                    item.innerText = `${compra.bebida.nombre} - ${compra.cantidad}`;
+                    carrito.appendChild(item);
+                }
+            }
+
+            (async () => {
+                const bebidas = document.getElementById("bebidas");
+
+                try {
+                    const bebidasResponse = await fetch(`/Bebidas`);
+                    const data = await bebidasResponse.json();
+                    for (const bebida of data) {
+                        const btn = document.createElement('button');
+                        btn.innerText = `Comprar: ${bebida.nombre}`;
+                        btn.style.display = 'block';
+                        btn.addEventListener('click', async function () {
+                            await comprarBebida(bebida.id);
+                        });
+                        bebidas.appendChild(btn);
+                    }
+                } catch {
+                    const offline = document.createElement('h3');
+                    offline.innerText = "Servicio desconectado";
+
+                    bebidas.appendChild(offline);
+                }
+            })();
+
+            async function comprarComida(id) {
+                const response = await fetch(`/Comidas?id=${id}`, { method: 'POST' });
+
+                const carrito = document.getElementById("carrito-comidas");
+                carrito.innerHTML = '';
+
+                for (const compra of await response.json()) {
+                    const item = document.createElement('p');
+                    item.innerText = `${compra.comida.nombre} - ${compra.cantidad}`;
+                    carrito.appendChild(item);
+                }
+            }
+
+            (async () => {
+                const comidas = document.getElementById("comidas");
+
+                try {
+                    const comidasResponse = await fetch(`/Comidas`);
+                    const data = await comidasResponse.json();
+                    for (const comida of data) {
+                        const btn = document.createElement('button');
+                        btn.innerText = `Comprar: ${comida.nombre}`;
+                        btn.style.display = 'block';
+                        btn.addEventListener('click', async function () {
+                            await comprarComida(comida.id);
+                        });
+                        comidas.appendChild(btn);
+                    }
+                } catch {
+                    const offline = document.createElement('h3');
+                    offline.innerText = "Servicio desconectado";
+                    comidas.appendChild(offline);
+                }
+            })();
+        </script>
+    </body>
+</html>
