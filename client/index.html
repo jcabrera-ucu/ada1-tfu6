@@ -13,8 +13,8 @@
         <div id="carrito-comidas"></div>
 
         <script>
-            const portBebidas = 5139;
-            const portComidas = 5094;
+            const portBebidas = 5006;
+            const portComidas = 5006;
 
             async function comprarBebida(id) {
                 const response = await fetch(`http://localhost:${portBebidas}/Bebidas?id=${id}`, { method: 'POST' });
